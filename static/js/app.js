@@ -41,37 +41,50 @@ function buildChart(sample) {
         let otuLabels = result.otu_labels;
         let sampleValues = result.sample_values;
 
-        otuOrdered = otuID.sort().reverse();  
-        console.log(otuOrdered.splice(0,10))
+        otuOrdered = otuID.slice(0,10).map(otuID => `otu${otuID}`).reverse();  
+        sampleValueY= sampleValues.slice(0,10).reverse();
+        labelText = otuLabels.slice(0,10).reverse();
+        console.log(otuOrdered);
+        console.log(labelText);
+        console.log(sampleValueY);
         
 // Bar Chart
-        let bar = d3.select("#bar")
+        //let bar = d3.select("#bar")
 
         barData = [{
+            x: sampleValueY,
+            y: otuOrdered,
+            text: labelText,
             type: 'bar',
-            x: otuOrdered.splice(0,10),
-            y: sampleValues.splice(0,10),
-            text: otuLabels,
             orientation: 'h'
+            
         }];
 
-        var barLayout = {
+        console.log(barData)
+
+        barLayout = {
             title: "Top 10 OTUs per Individual",
-            margin: { t: 100, l: 100 }
+            margin: { t: 100, l: 100 },
+    
           };
 
 // Bubble Layout 
 
-        let bubble = d3.select("bubble")
+        //otuOrdered2 = otuID.slice(0,10).map(otuID => `otu${otuID}`).reverse();  
+        //sampleValueY2= sampleValues.slice(0,10).reverse();
+        //labelText2 = otuLabels.slice(0,10).reverse();
+
+        //let bubble = d3.select("bubble")
 
         bubbleData = [{
-            x: otuOrdered.splice(0,10),
-            y: sampleValues.splice(0,10),
+            x: otuID,
+            y: sampleValues,
             text: otuLabels,
             mode: "markers",
             marker: {
                 size: sampleValues,
-                colors: otuOrdered
+                color: otuID, 
+                colorscale: 'Earth'
                 }
         }];
 
@@ -132,29 +145,3 @@ init_build();
 
 
 
-
-
-
-
-// function plot_chart(data,name) {
-//     let samples = data.samples
-    
-// }
-
-
-
-
-
-
-
-
-
-      
-        // let resultArray = metadata.filter(obj => obj.id == sample);
-        // let result = resultArray[0];
-     
-        // let panel = d3.select("#sample-metadata");
-
-        // Object.entries(result).forEach([key, value]) => {
-        //     panel.append("h6").text(`${key}: ${value}`);
-        // }
